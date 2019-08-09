@@ -1,47 +1,25 @@
 const winston = require('winston');
-const loggerInfo = new winston.Logger({
+
+// Logger configuration
+const logConfiguration = {
     transports: [
-        new winston.transports.Console({
-            level: 'debug',
-            handleExceptions: false,
-            json: false,
-            colorize: false,
-            timestamp: function() {
-                const date = new Date();
-
-                let hour = date.getUTCHours();
-                hour = (hour < 10 ? '0' : '') + hour;
-
-                let min  = date.getUTCMinutes();
-                min = (min < 10 ? '0' : '') + min;
-
-                let sec  = date.getUTCSeconds();
-                sec = (sec < 10 ? '0' : '') + sec;
-
-                const year = date.getUTCFullYear();
-
-                let month = date.getUTCMonth() + 1;
-                month = (month < 10 ? '0' : '') + month;
-
-                let day  = date.getUTCDate();
-                day = (day < 10 ? '0' : '') + day;
-
-                const millisecond = date.getUTCMilliseconds();
-
-                return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec + '.' + millisecond;
-
-            },
-            formatter: function(options) {
-                // Return string will be passed to logger.
-                return options.timestamp() + ' ' + options.level.toUpperCase() +' '+ (undefined !== options.message ? options.message : '') +
-                    (options.meta && Object.keys(options.meta).length ? '\n\t'+ JSON.stringify(options.meta) : '' );
-            }
+        new winston.transports.File({
+            level: 'info',
+            filename: './logs/info.log'
         }),
+        new winston.transports.File({
+            level: 'error',
+            filename: './logs/debug.log'
+        })
     ],
-    exitOnError: false
-});
-
-module.exports = {
-    info: loggerInfo,
-    debug: loggerDebug
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf((info) => {
+            return `${info.timestamp} - [${info.level}]: ${info.message}`;
+        })
+    )
 };
+
+const logger = winston.createLogger(logConfiguration);
+
+module.exports = logger;
