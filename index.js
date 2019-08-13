@@ -3,11 +3,14 @@ const app = express();
 const appConfig = require('./config') || {};
 const PORT = appConfig.PORT || 2345;
 const routers = require('./routers');
-const logger = require('./utils/logger');
+const {loggerError} = require('./utils/logger');
+const db = require('./db');
 
-app.use(routers)
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.use(routers);
 
 app.listen(PORT, () => {
-    console.log(PORT)
-    logger.info('Listen port %s', PORT)
+    loggerError.info('Listen port %s', PORT)
 })

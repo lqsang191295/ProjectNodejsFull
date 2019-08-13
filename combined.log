@@ -1,0 +1,8 @@
+{ level: 'info',
+  message: 'Listen port %s',
+  label: 'right meow!',
+  timestamp: '2019-08-08T15:31:03.955Z' }
+{ level: 'info',
+  message: 'What time is the testing at?',
+  label: 'right meow!',
+  timestamp: '2019-08-08T15:31:03.959Z' }

@@ -1,0 +1,42 @@
+<% 
+const products = [
+    {
+        product_id: 1,
+        product_image: 'https://images.foody.vn/res/g69/686392/prof/s750x400/foody-upload-api-foody-mobile-mochio-jpg-180405104651.jpg',
+        product_name: 'Mochio Tea & Coffee - Hoàng Cầu',
+        product_description: 'Mochio Tea & Coffee - Hoàng Cầu ngon bổ rẻ ....',
+        product_address: '6 Hoàng Cầu Mới (Ngã tư Thái Hà - Hoàng Cầu) , Quận Đống Đa, Hà Nội'
+    }, {
+        product_id: 2,
+        product_image: 'https://images.foody.vn/res/g91/907661/prof/s750x400/foody-upload-api-foody-mobile-nc-mia-190419142356.jpg',
+        product_name: 'Tiến Vân - Nước Ép Hoa Quả & Đồ Ăn Vặt',
+        product_description: 'Tiến Vân - Nước Ép Hoa Quả & Đồ Ăn Vặt ngon bổ rẻ ....',
+        product_address: '96 Định Công, Quận Hoàng Mai, Hà Nội'
+    }, {
+        product_id: 3,
+        product_image: 'https://images.foody.vn/res/g67/667926/prof/s750x400/foody-upload-api-foody-mobile-royal-3-jpg-180411094508.jpg',
+        product_name: 'Royaltea Vietnam By Hongkong - Vũ Phạm Hàm',
+        product_description: 'Royaltea Vietnam By Hongkong - Vũ Phạm Hàm ngon bổ rẻ ....',
+        product_address: '142 Vũ Phạm Hàm (Đối Diện 888 Đường Láng), Quận Cầu Giấy, Hà Nội'
+    }, {
+        product_id: 4,
+        product_image: 'https://images.foody.vn/res/g90/899981/prof/s750x400/foody-upload-api-foody-mobile-bh-190329155723.jpg',
+        product_name: 'Vịt Quay Bách Hương',
+        product_description: 'Vịt Quay Bách Hương ngon bổ rẻ ....',
+        product_address: '530 Xã Đàn, Quận Đống Đa, Hà Nội'
+    }
+]
+%>
+
+<% products.forEach((p) => { %>
+    <div class="card float-left" style="width: calc((100% - 40px) / 4); margin: 5px;">
+        <img class="card-img-top"
+            src="<%= p.product_image%>"
+            alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title"><%= p.product_name%></h5>
+            <p class="card-text"><%= p.product_description%></p>
+            <a href="/details/<%= p.product_id%>" class="btn btn-outline-success btn-sm">View detail</a>
+        </div>
+    </div>
+<% }); %>

@@ -20,6 +20,26 @@ const logConfiguration = {
     )
 };
 
-const logger = winston.createLogger(logConfiguration);
+const loggerError = winston.createLogger(logConfiguration);
 
-module.exports = logger;
+const logConfigRequest = {
+    transports: [
+        new winston.transports.File({
+            level: 'info',
+            filename: './logs/request.log'
+        })
+    ],
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf((info) => {
+            return `${info.timestamp} - [${info.level}]: ${info.message}`;
+        })
+    )
+};
+
+const loggerRequest = winston.createLogger(logConfigRequest);
+
+module.exports = {
+    loggerError,
+    loggerRequest
+};
