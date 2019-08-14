@@ -44,6 +44,13 @@ router.get('/login', function (req, res) {
     });
 })
 
+router.get('/register', function (req, res) {
+    res.render('index', {
+        view: ejsCompiler('register.ejs'),
+        breadCrumb: ['Home', 'Register']
+    });
+})
+
 router.use(bookRouter);
 router.use(authorRouter);
 router.use(adminRouter);

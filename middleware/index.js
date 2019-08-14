@@ -6,7 +6,7 @@ const middlewareLoggerRequest = () => (req, res, next) => {
 
 const middlewareAuth = (req, res, next) => {
     console.log("Muốn vào phải qua tao !!!!!!!!!!");
-    if (2 === 2) {
+    if (1 === 2) {
         next();
     } else {
         res.redirect('/login')
