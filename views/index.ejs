@@ -20,28 +20,31 @@
                 el: '#app',
                 data: {
                     greeting: 'Welcome to posts! from vue ',
-                    posts: []
+                    posts: [],
+                    modelRegister: {
+                        name: '',
+                        email: '',
+                        username: '',
+                        password: ''
+                    }
                 },
                 methods: {
+                    register: async (e) => {
+                        alert()
+                        const data = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+                        console.log(11111111, data);
+                        localStorage.setItem('data', JSON.stringify(data))
+                    },
                     showPost: function (p) {
                         alert(p.title + "\n" + p.body)
                     },
-                    getPosts: function () {
+                    getPosts: async function () {
                         var self = this;
-                        axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
-                            .then(function (response) {
-                                console.log(response.data);
-                                self.posts = response.data
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            })
-                            .then(function () {
-                                console.log("got the data" + self.posts)
-                            });
+                        const data = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+                        console.log('zzzzzzzzzzzz', data)    
                     }
-                },
-                mounted: function () {
+                }, 
+                mounted(){
                     this.getPosts()
                 }
             })

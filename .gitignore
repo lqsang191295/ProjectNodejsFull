@@ -1,3 +1,6 @@
 ./node_modules
 /node_modules
 /logs/
+/logs/info.log
+/logs/debug.log
+/logs/request.log
