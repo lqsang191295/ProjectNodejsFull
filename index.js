@@ -3,8 +3,10 @@ const app = express();
 const appConfig = require('./config') || {};
 const PORT = appConfig.PORT || 2345;
 const routers = require('./routers');
-const {loggerError} = require('./utils/logger');
+const {logger} = require('./utils/logger');
 const db = require('./db');
+
+console.log("dbb", db)
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -17,6 +19,11 @@ app.set('views', './views');
 
 app.use(routers);
 
+app.use(function (err, req, res, next) {
+    console.error("hhhhhhhhhhhhhh", err)
+    res.status(500).send(err)
+  })
+
 app.listen(PORT, () => {
-    loggerError.info('Listen port %s', PORT)
+    logger.info('Listen port %s', PORT)
 })

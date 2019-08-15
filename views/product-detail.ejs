@@ -1,3 +1,69 @@
-Product detail
+<html>
+    <head>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <%- include header.ejs %>
 
+            <div class="container">
+                <%- include('breadcrumb.ejs', {breadCrumb}) %>
+                <!-- Page Content -->
+<div class="container">
 
+      
+        <!-- Portfolio Item Row -->
+        <div class="row">
+      
+          <div class="col-md-8">
+            <img class="img-fluid" :src="item.product_image" alt="">
+          </div>
+      
+          <div class="col-md-4">
+            <h3 class="my-3">{{item.product_name}}</h3>
+            <p>{{item.product_description}}</p>
+            <p>Địa chỉ: {{item.product_address}}</p>
+          </div>
+      
+        </div>
+        <!-- /.row -->
+      
+      </div>
+      <!-- /.container -->
+            </div>
+        </div>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    item: {
+                        product_name: ''
+                    },
+                    modelUserLoged: {}
+                },
+                methods: {
+                    getItemDetailById: async function() {
+                        const data = await axios.get('http://localhost:1234/products/' + window.location.href.slice(-24));
+                        console.log(data);
+                        this.item = data.data.data;
+                    },
+                    getUser: function() {
+                        const user = localStorage.getItem('InfoAuth');
+                        console.log(11111111111, user)
+                        this.modelUserLoged = user ? JSON.parse(user) : {};
+                    }
+                }, 
+                mounted(){
+                    this.getItemDetailById(),
+                    this.getUser()
+                }
+            })
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>

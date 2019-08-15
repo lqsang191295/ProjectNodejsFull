@@ -20,32 +20,81 @@
                 el: '#app',
                 data: {
                     greeting: 'Welcome to posts! from vue ',
-                    posts: [],
+                    listProducts: [],
                     modelRegister: {
                         name: '',
                         email: '',
                         username: '',
                         password: ''
+                    },
+                    messageRegister: {
+                        message: '',
+                        status: ''
+                    },
+                    modelLogin: {
+                        username: '',
+                        password: ''
+                    },
+                    item: {
+                        product_name: 'Nhu cc'
+                    },
+                    modelUserLoged: {
+
                     }
                 },
                 methods: {
-                    register: async (e) => {
-                        alert()
-                        const data = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
-                        console.log(11111111, data);
-                        localStorage.setItem('data', JSON.stringify(data))
+                    register: async function(e) {
+                        const result = await axios.post('http://localhost:1234/register', this.modelRegister)
+                        console.log(11111111, result.data);
+                        if(result && result.data.success) {
+                            // qua login
+                            this.messageRegister.message = 'Thành công';
+                            this.messageRegister.status = 'alert alert-success';
+                        } else {
+                            this.messageRegister.message = result && result.data && result.data.error ? 
+                            (result.data.error.errmsg || result.data.error.message) : 'Có lỗi xảy ra';
+                            this.messageRegister.status = 'alert alert-danger'
+                        }
+                    },
+                    login: async function (p) {
+                        const result = await axios.post('http://localhost:1234/login', this.modelLogin)
+                        console.log(11111111, result.data);
+                        if(result && result.data.success) {
+                            localStorage.setItem('InfoAuth',  JSON.stringify(result.data.data));
+                            alert('Success');
+                            window.location.href = '/';
+                        } else {
+                           alert('Login faile')
+                        }
                     },
                     showPost: function (p) {
                         alert(p.title + "\n" + p.body)
                     },
-                    getPosts: async function () {
+                    getListProduct: async function () {
                         var self = this;
-                        const data = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+                        const data = await axios.get('http://localhost:1234/products');
                         console.log('zzzzzzzzzzzz', data)    
+                        this.listProducts = data.data.data;
+                    },
+                    viewDetail: function(item) {
+                        console.log(11111111111, item)
+                        this.item = item;
+                        window.location.href = '/details/' + item._id;
+                    },
+                    getItemDetailById: async function(id) {
+                        const data = await axios.get('http://localhost:1234/products/' + id);
+                        console.log(data);
+                      
+                    },
+                    getUser: function() {
+                        const user = localStorage.getItem('InfoAuth');
+                        console.log(11111111111, user)
+                        this.modelUserLoged = user ? JSON.parse(user) : {};
                     }
                 }, 
                 mounted(){
-                    this.getPosts()
+                    this.getListProduct(),
+                    this.getUser()
                 }
             })
         </script>

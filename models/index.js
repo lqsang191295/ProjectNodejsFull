@@ -1,4 +1,8 @@
 const UserModel = require('./userModel');
+const UserTokenModel = require('./userTokenModel');
+const ProductModel = require('./productModel');
 module.exports = { 
-    UserModel
+    UserModel,
+    UserTokenModel,
+    ProductModel
 }

@@ -20,7 +20,7 @@ const logConfiguration = {
     )
 };
 
-const loggerError = winston.createLogger(logConfiguration);
+const logger = winston.createLogger(logConfiguration);
 
 const logConfigRequest = {
     transports: [
@@ -40,6 +40,6 @@ const logConfigRequest = {
 const loggerRequest = winston.createLogger(logConfigRequest);
 
 module.exports = {
-    loggerError,
+    logger,
     loggerRequest
 };

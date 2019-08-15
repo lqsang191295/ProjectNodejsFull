@@ -28,15 +28,15 @@ const products = [
 ]
 %>
 
-<% products.forEach((p) => { %>
-    <div class="card float-left" style="width: calc((100% - 40px) / 4); margin: 5px;">
-        <img class="card-img-top"
-            src="<%= p.product_image%>"
-            alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title"><%= p.product_name%></h5>
-            <p class="card-text"><%= p.product_description%></p>
-            <a href="/details/<%= p.product_id%>" class="btn btn-outline-success btn-sm">View detail</a>
-        </div>
+<div class="card float-left" style="width: calc((100% - 40px) / 4); margin: 5px;"
+    v-for="p in listProducts">
+    <img class="card-img-top"
+        :src="p.product_image"
+        alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{p.product_name}}</h5>
+        <p class="card-text">{{p.product_description}}</p>
+        <a href="#" class="btn btn-outline-success btn-sm"
+        v-on:click="viewDetail(p)">View detail</a>
     </div>
-<% }); %>
+</div>

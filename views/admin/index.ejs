@@ -1,1 +1,156 @@
-Admin
+<html>
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+</head>
+
+<body>
+    <style>
+        .table thead th {
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+    <div id="app">
+        <div class="container">
+            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal"
+                v-on:click="add">Add</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Product name</th>
+                        <th>Product decription</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="p in listProducts">
+                        <th>1</th>
+                        <td><img :src="p.product_image" style="width: 128px"/></td>
+                        <td>{{p.product_name}}</td>
+                        <td>{{p.product_description}}</td>
+                        <td>{{p.product_address}}</td>
+                        <td>
+                            <button class="btn btn-secondary" type="button" data-toggle="modal" 
+                                data-target="#exampleModal"
+                                v-on:click="edit(p)">Edit</button>
+                            <button class="btn btn-danger" type="button"
+                             v-on:click="deleteItem(p)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Product name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" placeholder="Product name"
+                                        v-model="item.product_name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Product decription</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Product decription" v-model="item.product_description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Product image</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Product image" v-model="item.product_image">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Product address</label>
+                                    <input type="text" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Product address" v-model="item.product_address">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" v-on:click="save">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                greeting: 'Welcome to posts! from vue ',
+                listProducts: [],
+                isAdd: false,
+                item: {
+                    product_name: '',
+                    product_description: '',
+                    product_image: '',
+                    product_address: ''
+                }
+            },
+            methods: {
+                getProduct: async function (p) {
+                    const result = await axios.get('http://localhost:1234/products');
+                    console.log("123123123", result);
+                    this.listProducts = result.data.data;
+                },
+                add: function () {
+                    this.isAdd = true;
+                },
+                edit: function (item) {
+                    console.log("123123", item)
+                    this.isAdd = false;
+                    this.item = item;
+                },
+                save: async function () {
+                    if (this.isAdd) {
+                        const data = await axios.post('http://localhost:1234/products/add', this.item)
+                        this.getProduct();
+                        alert('Success');
+                    } else {
+                        const data = await axios.post('http://localhost:1234/products/edit', this.item)
+                        this.getProduct();
+                        alert('Success');
+                    }
+                }, 
+                deleteItem: async function(item) {
+                    const data = await axios.post('http://localhost:1234/products/delete', item)
+                    this.getProduct();
+                    alert('Success');
+                }
+            },
+            mounted() {
+                this.getProduct()
+            }
+        })
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

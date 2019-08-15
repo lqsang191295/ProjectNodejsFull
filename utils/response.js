@@ -1,6 +1,7 @@
+const { logger } = require('../utils/logger');
 class Response {
     static success(res, data) {
-        console.log("zzzzzzzzzzzzzzzz")
+        logger.info(data);
         return res.json({
             success: true,
             data
@@ -8,7 +9,7 @@ class Response {
     }
 
     static error(res, error) {
-        console.log("zzzzzzzzzzzzzzzz1111")
+        logger.error(error);
         return res.json({
             success: false,
             error
