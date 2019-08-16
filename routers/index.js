@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const {middlewareLoggerRequest, middlewareLoggerError} = require('../middleware');
 const {ejsCompiler} = require('../utils/ejsCompiler');
+const ProductController = require('../controllers/productController');
 
 router.use(middlewareLoggerRequest);
 
@@ -37,6 +38,16 @@ router.get('/details/:id', (req, res, next) => {
         breadCrumb: ['Home', 'Product', 'Name product']
     });
 });
+
+
+router.get('/client_products', ProductController.getProduct);
+
+router.get('/admin', function (req, res) {
+    res.render('admin/index', {
+        // view: ejsCompiler('admin/body.ejs'),
+        // breadCrumb: ["Home"]
+    });
+})
 
 router.use(authRouter);
 router.use(bookRouter);

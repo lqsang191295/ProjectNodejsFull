@@ -12,11 +12,17 @@
         .table thead th {
             border-bottom: 1px solid #dee2e6;
         }
+        .table th {
+            border-top: 0;
+        }
     </style>
-    <div id="app">
+    <div id="app" style="padding-top: 20px;">
         <div class="container">
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal"
                 v-on:click="add">Add</button>
+
+            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal"
+                    v-on:click="back">Back to home</button>
             <table class="table">
                 <thead>
                     <tr>
@@ -29,16 +35,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="p in listProducts">
-                        <th>1</th>
+                    <tr v-for="(p, i) in listProducts">
+                        <th>{{i + 1}}</th>
                         <td><img :src="p.product_image" style="width: 128px"/></td>
                         <td>{{p.product_name}}</td>
                         <td>{{p.product_description}}</td>
                         <td>{{p.product_address}}</td>
-                        <td>
+                        <td style="display: flex">
                             <button class="btn btn-secondary" type="button" data-toggle="modal" 
                                 data-target="#exampleModal"
-                                v-on:click="edit(p)">Edit</button>
+                                v-on:click="edit(p)" style="margin-right: 5px">Edit</button>
                             <button class="btn btn-danger" type="button"
                              v-on:click="deleteItem(p)">Remove</button>
                         </td>
@@ -107,7 +113,13 @@
             },
             methods: {
                 getProduct: async function (p) {
-                    const result = await axios.get('http://localhost:1234/products');
+                    const infoAuth = localStorage.getItem('InfoAuth');
+                    const token = infoAuth ? JSON.parse(infoAuth).token : '';
+                    const result = await axios.get('http://localhost:1234/products', {
+                        headers: {
+                            Authorization: 'Bearer ' + token
+                        }
+                    });
                     console.log("123123123", result);
                     this.listProducts = result.data.data;
                 },
@@ -134,10 +146,16 @@
                     const data = await axios.post('http://localhost:1234/products/delete', item)
                     this.getProduct();
                     alert('Success');
+                },
+                back: function() {
+                    window.location.href = '/';
                 }
             },
             mounted() {
-                this.getProduct()
+                const me = this;
+                setTimeout(function () {
+                    me.getProduct()
+                }, 5000)
             }
         })
     </script>

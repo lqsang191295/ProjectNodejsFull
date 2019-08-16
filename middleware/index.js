@@ -2,7 +2,8 @@ const { loggerRequest, loggerError } = require('../utils/logger');
 const Response = require('../utils/response');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const SECRET = config.SECRET; 
+const SECRET = config.SECRET;
+const UserController = require('../controllers/userController');
 
 const middlewareLoggerError = async (req, res, next) => {
     try {
@@ -22,18 +23,20 @@ const middlewareLoggerRequest = (req, res, next) => {
 const middlewareAuth = async (req, res, next) => {
     console.log("Muốn vào phải qua tao !!!!!!!!!!");
     try {
-        // const token = req.header('Authorization') ? req.header('Authorization').replace('Bearer', '') : '';
-        // console.log("----------------", token)
-        // if(!token) {
-        //     res.redirect('/login')
-        // }
-        // console.log(123123123, SECRET);
-        // const decode = jwt.verify(token, 'SECRET');
-        // console.log("Decode", decode)
-        if (2 === 2) {
+        const token = req.header('Authorization') ? req.header('Authorization').replace('Bearer ', '') : '';
+        if(!token) {
+            res.redirect('/login')
+        }
+        const decode = jwt.verify(token, SECRET);
+        console.log("Decode", decode)
+        const {_id} = decode;
+        const user = await UserController.findOneById(_id);
+        if (_id && user) {
             next();
         } else {
-            res.redirect('/login')
+            console.log(333333333333333)
+            res.setHeader("Content-Type", "text/html")
+            return res.redirect('/login')
         }
     } catch (err) {
         console.log("zzzzzzzzzzzzzzz", err);

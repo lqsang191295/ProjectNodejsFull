@@ -72,8 +72,8 @@
                     },
                     getListProduct: async function () {
                         var self = this;
-                        const data = await axios.get('http://localhost:1234/products');
-                        console.log('zzzzzzzzzzzz', data)    
+                        const data = await axios.get('http://localhost:1234/client_products');
+                        console.log('zzzzzzzzzzzz11111', data)
                         this.listProducts = data.data.data;
                     },
                     viewDetail: function(item) {

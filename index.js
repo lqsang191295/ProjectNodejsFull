@@ -20,7 +20,6 @@ app.set('views', './views');
 app.use(routers);
 
 app.use(function (err, req, res, next) {
-    console.error("hhhhhhhhhhhhhh", err)
     res.status(500).send(err)
   })
 

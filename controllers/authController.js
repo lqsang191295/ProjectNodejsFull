@@ -8,7 +8,7 @@ const UserTokenController = require('./userTokenController');
 
 
 const generateAuthToken = async (user) => {
-    const token = await jwt.sign(user, SECRET);
+    const token = jwt.sign(user, SECRET);
     const {username} = user;
     await UserTokenController.findOneAndUpdate({
         username,
@@ -25,7 +25,7 @@ const login = async (req, res, next) => {
             const isMatchPassword = await comparePassword(password, user.password);
             if(isMatchPassword) {
                 const {username, password, _id, name, email} = user;
-                const token = await generateAuthToken({username, password, _id, name, email});
+                const token = await generateAuthToken({_id});
                 Response.success(res, {token, username, _id, name, email})
             } else {
                 Response.error(res, {error: {

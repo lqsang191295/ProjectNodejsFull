@@ -33,6 +33,7 @@ class ProductController {
 
     static async getProduct(req, res) {
         try {
+            console.log("get product")
             const result = await models.ProductModel.find();
             Response.success(res, result);
         } catch (err) {

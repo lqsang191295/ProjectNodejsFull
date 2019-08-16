@@ -8,6 +8,10 @@ class UserController {
     static findOneByUsername(username) {
         return models.UserModel.findOne({username});
     }
+
+    static findOneById(_id) {
+        return models.UserModel.findOne({_id});
+    }
 }
 
 module.exports = UserController;
