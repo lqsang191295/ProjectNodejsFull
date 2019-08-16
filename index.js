@@ -17,6 +17,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+app.use('/loginFB', (req, res) => {
+    res.render('fblogin');
+})
+
+app.use('/fblogin1', (req, res) => {
+    res.render('fblogin1');
+})
+
+app.use('/fblogin_callback', (req, res) => {
+    res.render('fblogin_callback');
+})
+
 app.use(routers);
 
 app.use(function (err, req, res, next) {
